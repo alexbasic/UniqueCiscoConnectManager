@@ -8,8 +8,9 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
     {
         private readonly IAsyncConsoleRunner _runner;
         private readonly Ping _ping;
-        private readonly string _clientConnectPath;
-        private readonly string _clientDisconnectPath;
+        private readonly string _clientPath;
+        private readonly string _connectCommand;
+        private readonly string _disconnectCommand;
         private readonly string _address;
         private readonly int _delay;
         private readonly int _verifyInterval;
@@ -21,7 +22,7 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             get { return _connected; }
         }
 
-        public ConnectManager(string clientPath, string address, int delay, int verifyInterval, ConsoleRunnerDataReceived outputCallback)
+        public ConnectManager(string clientPath, string address, int delay, int verifyInterval, string profileName, ConsoleRunnerDataReceived outputCallback)
         {
             _runner = new AsyncConsoleRunner();
             _runner.OnConsoleRunnerDataReceived += (s ,p) => outputCallback(this, p);
@@ -30,8 +31,9 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             _ping = new Ping();
 
             _address = address;
-            _clientConnectPath = $"{clientPath} connect \"Name\"";
-            _clientDisconnectPath = $"{clientPath} disconnect";
+            _clientPath = clientPath;
+            _connectCommand = $" connect \"{profileName}\"";
+            _disconnectCommand = $" disconnect";
 
             _delay = delay;
             _verifyInterval = verifyInterval;
@@ -51,16 +53,18 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
 
         public async Task<bool> Connect()
         {
-            var exitCode = await _runner.ExecuteCommand(_clientConnectPath, CancellationToken.None);
-            _connected = exitCode == 0;
-            return exitCode == 0;
+            var exitCode = await _runner.ExecuteCommand(_clientPath, _connectCommand, CancellationToken.None);
+            var exitCodeCorrect = exitCode == 0 || exitCode == 200 || exitCode == 1;
+            _connected = exitCodeCorrect;
+            return exitCodeCorrect;
         }
 
         public async Task<bool> Disconnect()
         {
-            var exitCode = await _runner.ExecuteCommand(_clientDisconnectPath, CancellationToken.None);
-            if (exitCode == 0) _connected = false;
-            return exitCode == 0;
+            var exitCode = await _runner.ExecuteCommand(_clientPath, _disconnectCommand, CancellationToken.None);
+            var exitCodeCorrect = exitCode == 0 || exitCode == 15 || exitCode == 1;
+            if (exitCodeCorrect) _connected = false;
+            return exitCodeCorrect;
         }
 
         public async Task Start(CancellationToken token, ConsoleRunnerDataReceived outputCallback)

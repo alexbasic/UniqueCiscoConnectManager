@@ -18,11 +18,12 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
         {
         }
 
-        public async Task<int> ExecuteCommand(string command, CancellationToken token)
+        public async Task<int> ExecuteCommand(string command, string args, CancellationToken token)
         {
-            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
+            var processInfo = new ProcessStartInfo(command, args);
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
+            processInfo.WindowStyle = ProcessWindowStyle.Hidden;
             processInfo.RedirectStandardError = true;
             processInfo.RedirectStandardOutput = true;
 
@@ -78,6 +79,6 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
         event ConsoleRunnerDataReceived OnConsoleRunnerErrorDataReceived;
         event EventHandler OnExited;
 
-        Task<int> ExecuteCommand(string command, CancellationToken token);
+        Task<int> ExecuteCommand(string command, string args, CancellationToken token);
     }
 }

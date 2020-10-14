@@ -23,14 +23,12 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
         {
             InitializeComponent();
 
-            //"c:\temp\1 2"
-            //"c:\\\\Program Files (x86)\\Cisco Systems\\VPN Client"
-
             _manager = new ConnectManager(
-                "E:\\\\temp\\1 2",
-                "google.ru1",
+                "C:\\Program Files (x86)\\Cisco Systems\\VPN Client\\vpnclient",
+                "site.intranet.loc",
                 5000,
-                10000,
+                30000,
+                "Profile name",
                 (s, p) => LogToTextEdit((ConnectManager)s, p));
 
             _logToTextBoxWriter = (manager, value) => 
