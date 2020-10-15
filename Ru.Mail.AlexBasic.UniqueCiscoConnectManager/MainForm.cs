@@ -99,11 +99,7 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
         private ConnectManager ConnectManagerFactory(ConnectManagerConfig config)
         {
             _manager = new ConnectManager(
-                _config.VpnClientPath,
-                _config.PingAddress,
-                _config.ReconnectDelay,
-                _config.VerifyPeriod,
-                _config.VpnProfileName,
+                _config,
                 (s, p) => LogToTextEdit((ConnectManager)s, p));
 
             _logToTextBoxWriter = (manager, value) =>

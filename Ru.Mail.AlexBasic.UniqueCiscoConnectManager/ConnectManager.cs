@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,6 +7,7 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
 {
     public class ConnectManager
     {
+        private static readonly TimeSpan EndDay = new TimeSpan(23, 59, 59);
         private readonly IAsyncConsoleRunner _runner;
         private readonly Ping _ping;
         private readonly string _clientPath;
@@ -14,6 +16,9 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
         private readonly string _address;
         private readonly int _delay;
         private readonly int _verifyInterval;
+        private readonly bool _enabledBypass;
+        private readonly TimeSpan _bypassFrom;
+        private readonly TimeSpan _bypassTo;
 
         private bool _connected;
 
@@ -22,7 +27,7 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             get { return _connected; }
         }
 
-        public ConnectManager(string clientPath, string address, int delay, int verifyInterval, string profileName, ConsoleRunnerDataReceived outputCallback)
+        public ConnectManager(ConnectManagerConfig config, ConsoleRunnerDataReceived outputCallback)
         {
             _runner = new AsyncConsoleRunner();
             _runner.OnConsoleRunnerDataReceived += (s ,p) => outputCallback(this, p);
@@ -30,14 +35,18 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
 
             _ping = new Ping();
 
-            _address = address;
-            _clientPath = clientPath;
-            _connectCommand = $" connect \"{profileName}\"";
+            _address = config.PingAddress;
+            _clientPath = config.VpnClientPath;
+            _connectCommand = $" connect \"{config.VpnProfileName}\"";
             _disconnectCommand = $" disconnect";
 
-            _delay = delay;
-            _verifyInterval = verifyInterval;
+            _delay = config.ReconnectDelay;
+            _verifyInterval = config.VerifyPeriod;
             _connected = false;
+
+            _enabledBypass = config.EnableBypassTime;
+            _bypassFrom = config.BypassFrom;
+            _bypassTo = config.BypassTo;
         }
 
         public async Task<bool> Reconnect()
@@ -69,8 +78,22 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
 
         public async Task Start(CancellationToken token, ConsoleRunnerDataReceived outputCallback)
         {
+            outputCallback(this, "started");
             while (!token.IsCancellationRequested)
             {
+                if (Baypass())
+                {
+                    outputCallback(this, "bypass");
+                    try
+                    {
+                        await Task.Delay(_verifyInterval, token);
+                    }
+                    catch (TaskCanceledException ex)
+                    {
+                    }
+                    continue;
+                }
+
                 outputCallback(this, "ping");
 
                 if (!await Ping())
@@ -78,14 +101,16 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
                     _connected = false;
                     outputCallback(this, "start reconnecting");
                     var reconnectingResult = await Reconnect();
-                    if (reconnectingResult) outputCallback(this, "reconnected");
-                    else outputCallback(this, "disconnected");
+                    if (reconnectingResult) outputCallback(this, "reconnected success");
+                    else outputCallback(this, "disconnected state");
                 }
-                else 
+                else
                 {
                     _connected = true;
                 }
+
                 if (token.IsCancellationRequested) break;
+                
                 outputCallback(this, "wait");
                 try
                 {
@@ -95,8 +120,7 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
                 {
                 }
             }
-            _connected = false;
-            outputCallback(this, "disconnected");
+            outputCallback(this, "stopped");
         }
 
         public async Task<bool> Ping()
@@ -110,6 +134,20 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             {
                 return await Task.FromResult(false);
             }
+        }
+
+        private bool Baypass()
+        {
+            if (!_enabledBypass) return false;
+
+            var currentTime = DateTime.Now.TimeOfDay;
+            if (_bypassFrom <= _bypassTo)
+            {
+                return currentTime >= _bypassFrom && currentTime <= _bypassTo;
+            }
+
+            return currentTime >= _bypassTo && currentTime <= EndDay ||
+                currentTime >= TimeSpan.Zero && currentTime <= _bypassFrom;
         }
     }
 }
