@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Ru.Mail.AlexBasic.UniqueCiscoConnectManager.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="VpnClientPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Cisco Systems\VPN Client\vpnclient</Value>
+    </Setting>
+    <Setting Name="PingAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">site.intranet.loc</Value>
+    </Setting>
+    <Setting Name="ReconnectDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000</Value>
+    </Setting>
+    <Setting Name="VerifyPeriod" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">30000</Value>
+    </Setting>
+    <Setting Name="VpnProfileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Profile name</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
