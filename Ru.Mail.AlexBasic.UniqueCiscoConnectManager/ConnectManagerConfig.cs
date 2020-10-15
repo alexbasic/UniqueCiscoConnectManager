@@ -1,4 +1,6 @@
-﻿namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
+﻿using System;
+
+namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
 {
     public class ConnectManagerConfig
     {
@@ -7,5 +9,8 @@
         public int ReconnectDelay { get; set; }
         public int VerifyPeriod { get; set; }
         public string VpnProfileName { get; set; }
+        public bool EnableBypassTime { get; set; }
+        public TimeSpan BypassFrom { get; set; }
+        public TimeSpan BypassTo { get; set; }
     }
 }

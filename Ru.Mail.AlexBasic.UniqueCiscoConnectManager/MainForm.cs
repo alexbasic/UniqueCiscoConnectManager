@@ -30,7 +30,10 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
                 PingAddress = Properties.Settings.Default.PingAddress,
                 ReconnectDelay = Properties.Settings.Default.ReconnectDelay,
                 VerifyPeriod = Properties.Settings.Default.VerifyPeriod,
-                VpnProfileName = Properties.Settings.Default.VpnProfileName
+                VpnProfileName = Properties.Settings.Default.VpnProfileName,
+                EnableBypassTime = Properties.Settings.Default.EnableBypassTime,
+                BypassFrom = Properties.Settings.Default.BypassFrom,
+                BypassTo = Properties.Settings.Default.BypassTo
             };
 
             _manager = ConnectManagerFactory(_config);
@@ -118,6 +121,9 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             Properties.Settings.Default.ReconnectDelay = config.ReconnectDelay;
             Properties.Settings.Default.VerifyPeriod = config.VerifyPeriod;
             Properties.Settings.Default.VpnProfileName = config.VpnProfileName;
+            Properties.Settings.Default.EnableBypassTime = config.EnableBypassTime;
+            Properties.Settings.Default.BypassFrom = config.BypassFrom;
+            Properties.Settings.Default.BypassTo = config.BypassTo;
 
             Properties.Settings.Default.Save();
         }

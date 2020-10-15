@@ -40,8 +40,15 @@
             this.vpnProfileName_textBox = new System.Windows.Forms.TextBox();
             this.reconnectDelay_numericUpDown = new System.Windows.Forms.NumericUpDown();
             this.verifyPeriod_numericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.enableBaypassTime_checkBox = new System.Windows.Forms.CheckBox();
+            this.bypassFrom_maskedTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.bypassTo_maskedTextBox = new System.Windows.Forms.MaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.reconnectDelay_numericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.verifyPeriod_numericUpDown)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pathToClient_textBox
@@ -102,7 +109,7 @@
             // 
             this.ok_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ok_button.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ok_button.Location = new System.Drawing.Point(369, 174);
+            this.ok_button.Location = new System.Drawing.Point(369, 250);
             this.ok_button.Name = "ok_button";
             this.ok_button.Size = new System.Drawing.Size(75, 23);
             this.ok_button.TabIndex = 8;
@@ -113,7 +120,7 @@
             // 
             this.calcel_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.calcel_button.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.calcel_button.Location = new System.Drawing.Point(450, 174);
+            this.calcel_button.Location = new System.Drawing.Point(450, 250);
             this.calcel_button.Name = "calcel_button";
             this.calcel_button.Size = new System.Drawing.Size(75, 23);
             this.calcel_button.TabIndex = 9;
@@ -162,13 +169,72 @@
             this.verifyPeriod_numericUpDown.Size = new System.Drawing.Size(229, 20);
             this.verifyPeriod_numericUpDown.TabIndex = 13;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 48);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "From";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(259, 47);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(20, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "To";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.bypassTo_maskedTextBox);
+            this.groupBox1.Controls.Add(this.bypassFrom_maskedTextBox);
+            this.groupBox1.Controls.Add(this.enableBaypassTime_checkBox);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Location = new System.Drawing.Point(15, 142);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(507, 83);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Baypass time";
+            // 
+            // enableBaypassTime_checkBox
+            // 
+            this.enableBaypassTime_checkBox.AutoSize = true;
+            this.enableBaypassTime_checkBox.Location = new System.Drawing.Point(11, 19);
+            this.enableBaypassTime_checkBox.Name = "enableBaypassTime_checkBox";
+            this.enableBaypassTime_checkBox.Size = new System.Drawing.Size(123, 17);
+            this.enableBaypassTime_checkBox.TabIndex = 18;
+            this.enableBaypassTime_checkBox.Text = "Enable baypass time";
+            this.enableBaypassTime_checkBox.UseVisualStyleBackColor = true;
+            // 
+            // bypassFrom_maskedTextBox
+            // 
+            this.bypassFrom_maskedTextBox.Location = new System.Drawing.Point(44, 45);
+            this.bypassFrom_maskedTextBox.Mask = "00:00:00";
+            this.bypassFrom_maskedTextBox.Name = "bypassFrom_maskedTextBox";
+            this.bypassFrom_maskedTextBox.Size = new System.Drawing.Size(199, 20);
+            this.bypassFrom_maskedTextBox.TabIndex = 19;
+            // 
+            // bypassTo_maskedTextBox
+            // 
+            this.bypassTo_maskedTextBox.Location = new System.Drawing.Point(285, 45);
+            this.bypassTo_maskedTextBox.Mask = "00:00:00";
+            this.bypassTo_maskedTextBox.Name = "bypassTo_maskedTextBox";
+            this.bypassTo_maskedTextBox.Size = new System.Drawing.Size(216, 20);
+            this.bypassTo_maskedTextBox.TabIndex = 20;
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.ok_button;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.calcel_button;
-            this.ClientSize = new System.Drawing.Size(537, 209);
+            this.ClientSize = new System.Drawing.Size(537, 285);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.verifyPeriod_numericUpDown);
             this.Controls.Add(this.reconnectDelay_numericUpDown);
             this.Controls.Add(this.label5);
@@ -187,6 +253,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.reconnectDelay_numericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.verifyPeriod_numericUpDown)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,5 +274,11 @@
         private System.Windows.Forms.TextBox vpnProfileName_textBox;
         private System.Windows.Forms.NumericUpDown reconnectDelay_numericUpDown;
         private System.Windows.Forms.NumericUpDown verifyPeriod_numericUpDown;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox enableBaypassTime_checkBox;
+        private System.Windows.Forms.MaskedTextBox bypassTo_maskedTextBox;
+        private System.Windows.Forms.MaskedTextBox bypassFrom_maskedTextBox;
     }
 }

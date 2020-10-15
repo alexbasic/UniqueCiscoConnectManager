@@ -28,19 +28,25 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             reconnectDelay_numericUpDown.Value = config.ReconnectDelay;
             verifyPeriod_numericUpDown.Value = config.VerifyPeriod;
             vpnProfileName_textBox.Text = config.VpnProfileName;
+            enableBaypassTime_checkBox.Checked = config.EnableBypassTime;
+            bypassFrom_maskedTextBox.Text = config.BypassFrom.ToString();
+            bypassTo_maskedTextBox.Text = config.BypassTo.ToString();
         }
 
         private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (e.CloseReason == CloseReason.None && this.DialogResult == DialogResult.OK)
             {
-                var config = new ConnectManagerConfig 
+                var config = new ConnectManagerConfig
                 {
                     VpnClientPath = pathToClient_textBox.Text,
                     PingAddress = pingAddress_textBox.Text,
                     ReconnectDelay = (int)reconnectDelay_numericUpDown.Value,
                     VerifyPeriod = (int)verifyPeriod_numericUpDown.Value,
-                    VpnProfileName = vpnProfileName_textBox.Text
+                    VpnProfileName = vpnProfileName_textBox.Text,
+                    EnableBypassTime = enableBaypassTime_checkBox.Checked,
+                    BypassFrom = TimeSpan.Parse(bypassFrom_maskedTextBox.Text),
+                    BypassTo = TimeSpan.Parse(bypassTo_maskedTextBox.Text)
                 };
                 if (!new ConnectManagerConfigValidator().Validate(config))
                 {
@@ -53,6 +59,9 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
                 _config.ReconnectDelay = config.ReconnectDelay;
                 _config.VerifyPeriod = config.VerifyPeriod;
                 _config.VpnProfileName = config.VpnProfileName;
+                _config.EnableBypassTime = config.EnableBypassTime;
+                _config.BypassFrom = config.BypassFrom;
+                _config.BypassTo = config.BypassTo;
 
             }
         }

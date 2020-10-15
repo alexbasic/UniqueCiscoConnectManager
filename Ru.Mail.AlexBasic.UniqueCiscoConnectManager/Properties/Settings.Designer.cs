@@ -82,5 +82,41 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager.Properties {
                 this["VpnProfileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableBypassTime {
+            get {
+                return ((bool)(this["EnableBypassTime"]));
+            }
+            set {
+                this["EnableBypassTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00")]
+        public global::System.TimeSpan BypassFrom {
+            get {
+                return ((global::System.TimeSpan)(this["BypassFrom"]));
+            }
+            set {
+                this["BypassFrom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:00")]
+        public global::System.TimeSpan BypassTo {
+            get {
+                return ((global::System.TimeSpan)(this["BypassTo"]));
+            }
+            set {
+                this["BypassTo"] = value;
+            }
+        }
     }
 }
