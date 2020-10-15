@@ -42,7 +42,15 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             button2.Enabled = true;
             settingsToolStripMenuItem.Enabled = false;
             _tokenSource = new CancellationTokenSource();
-            await _manager.Start(_tokenSource.Token, (s, p) => LogToTextEdit((ConnectManager)s, p));
+            try
+            {
+                await _manager.Start(_tokenSource.Token, (s, p) => LogToTextEdit((ConnectManager)s, p));
+            }
+            catch (Exception ex) 
+            {
+                LogToTextEdit(_manager, "Client start error.");
+                MessageBox.Show(this, $"Error on starting vpn client. Check path to vpn client. Message: {ex?.Message ?? ""}", "Start error");
+            }
             button1.Enabled = true;
             button2.Enabled = false;
             settingsToolStripMenuItem.Enabled = true;
@@ -112,6 +120,11 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
             Properties.Settings.Default.VpnProfileName = config.VpnProfileName;
 
             Properties.Settings.Default.Save();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
