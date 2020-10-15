@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -131,6 +132,11 @@ namespace Ru.Mail.AlexBasic.UniqueCiscoConnectManager
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(this, $"Version: {Assembly.GetExecutingAssembly().GetName().Version}", "About");
         }
     }
 }
